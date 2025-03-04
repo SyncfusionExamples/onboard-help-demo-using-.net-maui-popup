@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:OnBoardHelpDemo"
+             x:Class="OnBoardHelpDemo.ResizingView">
+    <ContentView.Content>
+        <StackLayout Margin="0,10,0,0">
+            <StackLayout.Behaviors>
+                <local:ResizingBehavior/>
+            </StackLayout.Behaviors>
+            <Image Source="{Binding ResizingIllustrationImage}" HeightRequest="50"
+                   WidthRequest="50"/>
+            <Label Text="Press and drag to resize" TextColor="White" HorizontalOptions="Center" 
+                   FontFamily="Satisfy-Regular"/>
+        </StackLayout>
+    </ContentView.Content>
+</ContentView>

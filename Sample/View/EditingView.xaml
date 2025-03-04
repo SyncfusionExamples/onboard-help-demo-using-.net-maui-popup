@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:OnBoardHelpDemo"
+             x:Class="OnBoardHelpDemo.EditingView">
+    <ContentView.Content>
+        <StackLayout HorizontalOptions="Center"
+                     VerticalOptions="Center">
+            <StackLayout.Behaviors>
+                <local:EditingBehavior/>
+            </StackLayout.Behaviors>
+            <Image Source="{Binding EditingIllustrationImage}" HeightRequest="50"
+               WidthRequest="50"/>
+            <Label Text="doubletap to edit" TextColor="White" HorizontalOptions="Center" 
+               FontFamily="Satisfy-Regular"/>
+        </StackLayout>
+    </ContentView.Content>
+</ContentView>

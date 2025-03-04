@@ -1,0 +1,172 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:grid="clr-namespace:Syncfusion.Maui.DataGrid;assembly=Syncfusion.Maui.DataGrid" 
+             xmlns:popup="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
+             xmlns:local="clr-namespace:OnBoardHelpDemo"
+             x:Class="OnBoardHelpDemo.MainPage">
+
+    <ContentPage.Resources>
+        <OnPlatform x:Key="margin"
+            x:TypeArguments="Thickness">
+            <On Platform="WinUI,MacCatalyst"
+        Value="-5" />
+        </OnPlatform>
+        <Color x:Key="lightThemeColor">#1C1B1F</Color>
+        <Color x:Key="darkThemeColor">#E6E1E5</Color>
+        <Style TargetType="grid:DataGridHeaderCell">
+            <Setter Property="FontFamily"
+            Value="Roboto-Medium" />
+            <Setter Property="FontSize"
+            Value="14" />
+            <Setter Property="FontAttributes"
+            Value="Bold" />
+        </Style>
+        <Style TargetType="grid:DataGridCell">
+            <Setter Property="FontSize"
+            Value="14" />
+        </Style>
+    </ContentPage.Resources>
+    <ContentPage.BindingContext>
+        <local:TeamViewModel x:Name="viewModel"/>
+    </ContentPage.BindingContext>
+    <ContentPage.Behaviors>
+        <local:OnBoardHelpsBehavior />
+    </ContentPage.Behaviors>
+    <ContentPage.Content>
+        <Grid x:Name="rootGrid">
+            <grid:SfDataGrid x:Name="dataGrid"
+                            Margin="{StaticResource margin}"
+                            ItemsSource="{Binding TeamsData}"
+                            AutoGenerateColumnsMode="None"
+                            RowHeight="48"
+                            AllowSwiping="True"
+                            AllowDraggingRow="True"
+                            AllowEditing="True"
+                            EditTapAction="OnDoubleTap"
+                            AllowResizingColumns="True"
+                            SelectionMode="Single"
+                            NavigationMode="Cell"
+                            GridLinesVisibility="Both"
+                            HeaderGridLinesVisibility="Both"
+                            ColumnWidthMode="Fill">
+                <grid:SfDataGrid.Columns>
+                    <grid:DataGridTemplateColumn HeaderTextAlignment="Start"
+                                       ColumnWidthMode="Auto"
+                                       MappingName="TeamName"
+                                       MinimumWidth="150"
+                                       HeaderText="Team">
+                        <grid:DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <HorizontalStackLayout Spacing="8"
+                                           Padding="8">
+                                    <Label Text="{Binding TeamName}"
+                               TextColor="{AppThemeBinding Light={StaticResource lightThemeColor}, Dark={StaticResource darkThemeColor}}"
+                               VerticalTextAlignment="Center"
+                               HorizontalTextAlignment="Center" />
+                                </HorizontalStackLayout>
+                            </DataTemplate>
+                        </grid:DataGridTemplateColumn.CellTemplate>
+                    </grid:DataGridTemplateColumn>
+
+                    <grid:DataGridTextColumn MappingName="Wins"
+                                             AllowEditing="True"
+                                   HeaderTextAlignment="Center"
+                                   CellTextAlignment="Center"
+                                   HeaderText="W">
+                    </grid:DataGridTextColumn>
+                    <grid:DataGridTextColumn MappingName="Losses"
+                                   HeaderTextAlignment="Center"
+                                   CellTextAlignment="Center"
+                                   HeaderText="L">
+
+                    </grid:DataGridTextColumn>
+
+                    <grid:DataGridTextColumn MappingName="PCT"
+                                   HeaderTextAlignment="Center"
+                                   CellTextAlignment="Center"
+                                   HeaderText="WPCT">
+
+                    </grid:DataGridTextColumn>
+
+                    <grid:DataGridTextColumn MappingName="GB"
+                                   HeaderTextAlignment="Center"
+                                   CellTextAlignment="Center"
+                                   HeaderText="GB">
+                    </grid:DataGridTextColumn>
+
+                </grid:SfDataGrid.Columns>
+
+                <grid:SfDataGrid.LeftSwipeTemplate>
+                    <DataTemplate>
+                        <Grid BackgroundColor="#6750A4"
+                            Padding="0">
+                            <Label Grid.Column="0"
+                                   Text="Edit"
+                                   HorizontalTextAlignment="Center"
+                                   TextColor="#FFFFFF"
+                                   VerticalTextAlignment="Center"
+                                   LineBreakMode="NoWrap"
+                                   BackgroundColor="Transparent"/>
+                        </Grid>
+                    </DataTemplate>
+                </grid:SfDataGrid.LeftSwipeTemplate>
+
+                <grid:SfDataGrid.RightSwipeTemplate>
+                    <DataTemplate>
+                        <Grid BackgroundColor="#DC595F"
+            Padding="0">
+                            <Label Grid.Column="0"
+                   Text="Delete"
+                   HorizontalTextAlignment="Center"
+                   TextColor="#FFFFFF"
+                   VerticalTextAlignment="Center"
+                   LineBreakMode="NoWrap"
+                   BackgroundColor="Transparent"/>
+                        </Grid>
+                    </DataTemplate>
+                </grid:SfDataGrid.RightSwipeTemplate>
+            </grid:SfDataGrid>
+
+            <popup:SfPopup x:Name="popup"
+               StaysOpen="False"
+               AnimationMode="None"
+               ShowHeader="False"
+               ShowFooter="False"
+               IsOpen="{Binding PopupIsOpen,Mode=TwoWay}">
+                <popup:SfPopup.ContentTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ChangeContentView}"/>
+                            </Grid.GestureRecognizers>
+
+                            <ContentView Content="{Binding MainContent}"/>
+
+                            <Grid x:Name="overlay" 
+                                  HorizontalOptions="End" 
+                                  VerticalOptions="End">
+
+                                <Label x:Name="label"
+                                        Margin="20,0,30,0"
+                                        FontAttributes="Bold"
+                                        FontSize="25"
+                                        FontFamily="Satisfy-Regular"
+                                        Text="{Binding HelpText}"
+                                        TextColor="White"
+                                        VerticalOptions="Start"
+                                        HorizontalOptions="End"
+                                        HorizontalTextAlignment="Center"
+                                        HeightRequest="70"/>
+                            </Grid>
+                        </Grid>
+                    </DataTemplate>
+                </popup:SfPopup.ContentTemplate>
+                <popup:SfPopup.PopupStyle>
+                    <popup:PopupStyle Stroke="Transparent"
+                                      PopupBackground="Transparent"/>
+                </popup:SfPopup.PopupStyle>
+            </popup:SfPopup>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
